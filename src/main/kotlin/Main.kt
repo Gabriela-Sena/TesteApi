@@ -6,11 +6,11 @@ import java.net.http.HttpResponse
 import java.util.*
 
 fun main() {
-    //val leitura = Scanner(System.`in`)
-    //println("Digite um codigo de jogo para buscar:")
-    //val busca = leitura.nextLine()
+    val leitura = Scanner(System.`in`)
+    println("Digite um codigo de jogo para buscar:")
+    val busca = leitura.nextLine()
 
-    val endereco = "https://www.cheapshark.com/api/1.0/games?id=146"//concatenando o ID
+    val endereco = "https://www.cheapshark.com/api/1.0/games?id=$busca"//concatenando o ID
 
     val client: HttpClient = HttpClient.newHttpClient()
     val request = HttpRequest.newBuilder()
