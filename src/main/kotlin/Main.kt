@@ -23,19 +23,17 @@ fun main() {
     val json = response.body()
    // println(json) //A resposta da API vem como um objeto String contendo o JSON com os dados do jogo
 
-    val gson = Gson() //variavel para inicializar a biblioteca gson
+    val gson = Gson() //variavel para inicializar a biblioteca gson, inserir dependencia e dar um alt+enter
+    //var novoJogo: Jogo? = null
 
-    var novoJogo: Jogo? = null
+    val meuInfoJogo = gson.fromJson(json, InfoJogo::class.java)//O JSON retornado pela API é convertido para um objeto Kotlin usando a biblioteca Gson
+    // a variável `meuInfoJogo` é do tipo `InfoJogo`
 
-    val meuJogo = gson.fromJson(json, InfoJogo::class.java)
+    val meuJogo = Jogo(
+      meuInfoJogo.info.title, // O tipo `InfoJogo` tem um atributo `info` que armazena dados do jogo, o título (`title`) e a miniatura (`thumb`)
+      meuInfoJogo.info.thumb
+    )
 
     println(meuJogo)
-
-
-
-
-
-
-
 
 }
