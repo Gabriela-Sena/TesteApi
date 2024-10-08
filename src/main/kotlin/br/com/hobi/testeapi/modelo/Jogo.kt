@@ -1,3 +1,5 @@
+package br.com.hobi.testeapi.modelo
+
 import com.google.gson.annotations.SerializedName
 
 class Jogo (val titulo:String,
@@ -6,7 +8,7 @@ class Jogo (val titulo:String,
     var descricao = ""
 
     override fun toString(): String {
-        return "Meu Jogo: \n" +
+        return "Meu br.com.hobi.testeapi.modelo.Jogo: \n" +
         "Titulo=$titulo \n" +
         "Capa=$capa \n" +
         "Descricao=$descricao"
