@@ -1,5 +1,4 @@
 import com.google.gson.Gson
-import java.lang.NullPointerException
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
@@ -7,7 +6,7 @@ import java.net.http.HttpResponse
 import java.util.*
 
 fun main() {
-    val leitura = Scanner(System.`in`)
+    val leitura = Scanner(System.`in`) //cria o scanner
     println("Digite um codigo de jogo para buscar:")
     val busca = leitura.nextLine()
 
@@ -30,15 +29,48 @@ fun main() {
     val meuInfoJogo = gson.fromJson(json, InfoJogo::class.java)//O JSON retornado pela API é convertido para um objeto Kotlin usando a biblioteca Gson
     // a variável `meuInfoJogo` é do tipo `InfoJogo`
 
+//---------------------------------- t1
+//    try {
+//        val meuJogo = Jogo(
+//            meuInfoJogo.info.title, // O tipo `InfoJogo` tem um atributo `info` que armazena dados do jogo, o título (`title`) e a miniatura (`thumb`)
+//            meuInfoJogo.info.thumb
+//        )
+//        println(meuJogo)
+//    }catch (ex:NullPointerException){
+//        println("Jogo inexistente. Tente outro id.")
+//    }
+//---------------------------------- t2
 
-    try {
-        val meuJogo = Jogo(
-            meuInfoJogo.info.title, // O tipo `InfoJogo` tem um atributo `info` que armazena dados do jogo, o título (`title`) e a miniatura (`thumb`)
+    var meuJogo:Jogo? = null
+
+    val resultado = runCatching {
+        meuJogo = Jogo(
+            meuInfoJogo.info.title,
             meuInfoJogo.info.thumb
         )
-        println(meuJogo)
-    }catch (ex:NullPointerException){
-        println("Jogo inexistente. Tente outro id.")
     }
 
+    resultado.onFailure {
+        println("Jogo inexistente. Tente outro código.")
+    }
+
+
+    resultado.onSuccess {
+        println("Deseja inserir uma descrição personalizada? S/N:")
+        val opcao = leitura.nextLine()
+
+        if (opcao.equals("s", true)) {
+            println("Insira a descrição personalizada do jogo:")
+            val descricaoPersonalizada = leitura.nextLine()
+            meuJogo?.descricao = descricaoPersonalizada
+        } else {
+            meuJogo?.descricao = meuJogo?.titulo.toString()
+        }
+        //por algum motivo ele nao funciona a exceção caso haja falha
+        println(meuJogo)
+    }
+
+    resultado.onSuccess {
+        println("Busca finalizada com sucesso!")
+    }
 }
