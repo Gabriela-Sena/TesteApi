@@ -1,4 +1,5 @@
 import com.google.gson.Gson
+import java.lang.NullPointerException
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
@@ -29,11 +30,15 @@ fun main() {
     val meuInfoJogo = gson.fromJson(json, InfoJogo::class.java)//O JSON retornado pela API é convertido para um objeto Kotlin usando a biblioteca Gson
     // a variável `meuInfoJogo` é do tipo `InfoJogo`
 
-    val meuJogo = Jogo(
-      meuInfoJogo.info.title, // O tipo `InfoJogo` tem um atributo `info` que armazena dados do jogo, o título (`title`) e a miniatura (`thumb`)
-      meuInfoJogo.info.thumb
-    )
 
-    println(meuJogo)
+    try {
+        val meuJogo = Jogo(
+            meuInfoJogo.info.title, // O tipo `InfoJogo` tem um atributo `info` que armazena dados do jogo, o título (`title`) e a miniatura (`thumb`)
+            meuInfoJogo.info.thumb
+        )
+        println(meuJogo)
+    }catch (ex:NullPointerException){
+        println("Jogo inexistente. Tente outro id.")
+    }
 
 }
