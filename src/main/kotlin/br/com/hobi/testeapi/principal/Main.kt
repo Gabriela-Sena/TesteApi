@@ -7,6 +7,7 @@ fun main() {
     val leitura = Scanner(System.`in`) //cria o scanner
     val gamer = Gamer.criarGamer(leitura)
     println(gamer)
+    println("Idade do gamer " + gamer.dataNascimento?.TransformarEmIdade())
 
     do {
         println("Digite um codigo de jogo para buscar:")
