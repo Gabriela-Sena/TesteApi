@@ -51,6 +51,14 @@ fun main() {
 
     println("Jogos buscados:")
     println(gamer.jogosBuscados)
-    println("Busca finalizada com sucesso!")
+
+    println("\nJogos ordenados por titulo: ")
+    gamer.jogosBuscados.sortBy { //filtrar a lista para um filtro especifico
+        it?.titulo
+    }
+    gamer.jogosBuscados.forEach{ //exibir só o titulo
+        println("Titulo: " + it?.titulo)
+    }
+    println("\nBusca finalizada com sucesso!")
 
 }
