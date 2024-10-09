@@ -1,8 +1,7 @@
 package br.com.hobi.testeapi.servicos
 
-import br.com.hobi.testeapi.modelo.Gamer
-import br.com.hobi.testeapi.modelo.InfoGamerJson
-import br.com.hobi.testeapi.modelo.InfoJogo
+import br.com.hobi.testeapi.modelo.*
+import br.com.hobi.testeapi.utilitario.criaJogo
 import br.com.hobi.testeapi.utilitario.criarGamer
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -53,5 +52,18 @@ class ConsumoApi {
         val listaGamerConvertida = listaGamer.map { infoGamerJson -> infoGamerJson.criarGamer() }
 
         return listaGamerConvertida
+    }
+
+    fun buscaJogosJson(): List<Jogo> {
+        val endereco = "https://raw.githubusercontent.com/jeniblodev/arquivosJson/main/jogos.json"
+        val json = consomeDados(endereco)
+
+        val gson = Gson()
+        val meuJogoTipo = object : TypeToken<List<InfoJogoJson>>() {}.type
+        val listaJogo: List<InfoJogoJson> = gson.fromJson(json, meuJogoTipo)
+
+        val listaJogoConvertida = listaJogo.map { infoJogoJson -> infoJogoJson.criaJogo() }
+
+        return listaJogoConvertida
     }
 }
