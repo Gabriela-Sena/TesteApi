@@ -1,8 +1,9 @@
 package br.com.hobi.testeapi.modelo
 
+import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-data class Jogo (val titulo:String,
+data class Jogo (@Expose val titulo:String,
             val capa:String): Recomendavel{
 
     var descricao: String? = null

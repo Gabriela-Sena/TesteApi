@@ -4,6 +4,7 @@ import br.com.hobi.testeapi.modelo.Periodo
 import br.com.hobi.testeapi.modelo.PlanoAssinatura
 import br.com.hobi.testeapi.servicos.ConsumoApi
 import com.google.gson.GsonBuilder
+import java.io.File
 import java.time.LocalDate
 
 fun main(){
@@ -83,5 +84,11 @@ fun main(){
 //    gamerCamila.recomendarJogo(jogoSkyrim, 8)
 //    gamerCamila.recomendarJogo(jogoSpider, 6)
 
-    //val gson = GsonBuilder().excludeFieldsWithoutExposeAnnotation().create()
+    val gson = GsonBuilder().excludeFieldsWithoutExposeAnnotation().create()
+    val serializacao = gson.toJson(gamerCamila.jogosRecomendados)
+    println(serializacao)
+
+    var arquivo = File("jogosRecomendados-${gamerCamila.nome}.json")
+    arquivo.writeText(serializacao)
+    println(arquivo.absolutePath)
 }
