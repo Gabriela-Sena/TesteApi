@@ -26,7 +26,11 @@ data class Gamer(var nome:String, var email:String): Recomendavel{
         get() = listaNotas.average()
 
     override fun recomendar(nota: Int){
-        listaNotas.add(nota)
+        if (nota < 1 || nota > 10) {
+            println("Nota inválida. Insira uma nota entre 1 e 10")
+        } else {
+            listaNotas.add(nota)
+        }
     }
 
     constructor(nome: String, email: String, dataNascimento: String, usuario: String):this(nome, email){
@@ -81,7 +85,6 @@ data class Gamer(var nome:String, var email:String): Recomendavel{
             .filter { aluguel ->  aluguel.periodo.dataInicial.monthValue == mes}
             .map { aluguel ->  aluguel.jogo}
     }
-
 
     companion object {
         fun criarGamer(leitura: Scanner): Gamer{
