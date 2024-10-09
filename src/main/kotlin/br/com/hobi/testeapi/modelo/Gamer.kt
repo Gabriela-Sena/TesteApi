@@ -18,6 +18,7 @@ data class Gamer(var nome:String, var email:String){
     var idInterno:String? = null
         private set
     val jogosBuscados = mutableListOf<Jogo?>()
+    val jogosAlugados = mutableListOf<Aluguel>()
 
     constructor(nome: String, email: String, dataNascimento: String, usuario: String):this(nome, email){
         this.dataNascimento = dataNascimento
@@ -59,7 +60,10 @@ data class Gamer(var nome:String, var email:String){
     }
 
     fun alugaJogo(jogo: Jogo, periodo: Periodo): Aluguel{
-        return Aluguel(this, jogo, periodo )
+        val aluguel = Aluguel(this, jogo, periodo )
+        jogosAlugados.add(aluguel)
+
+        return aluguel
     }
 
     companion object {
