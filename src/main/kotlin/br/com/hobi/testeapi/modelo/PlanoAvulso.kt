@@ -1,9 +1,15 @@
 package br.com.hobi.testeapi.modelo
 
-data class PlanoAvulso(
-    val tipo: String){
+class PlanoAvulso(
+     tipo: String): Plano(tipo){
 
-    fun obterValor(aluguel: Aluguel): Double{
-        return aluguel.jogo.preco * aluguel.periodo.emDias
-    }
+     override fun obterValor(aluguel: Aluguel): Double {
+          var valorOriginal = super.obterValor(aluguel)
+          if (aluguel.gamer.media > 8) {
+               valorOriginal -= valorOriginal * 0.1
+          }
+          return valorOriginal
+     }
+
+
 }
