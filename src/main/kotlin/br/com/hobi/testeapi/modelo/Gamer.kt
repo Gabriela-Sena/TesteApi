@@ -1,5 +1,6 @@
 package br.com.hobi.testeapi.modelo
 import java.lang.IllegalArgumentException
+import java.time.LocalDate
 import java.util.*
 import kotlin.random.Random.Default.nextInt
 import kotlin.text.*
@@ -57,8 +58,8 @@ data class Gamer(var nome:String, var email:String){
         }
     }
 
-    fun alugaJogo(jogo: Jogo): Aluguel{
-        return Aluguel(this, jogo)
+    fun alugaJogo(jogo: Jogo, periodo: Periodo): Aluguel{
+        return Aluguel(this, jogo, periodo )
     }
 
     companion object {

@@ -1,6 +1,8 @@
 package br.com.hobi.testeapi.principal
 
+import br.com.hobi.testeapi.modelo.Periodo
 import br.com.hobi.testeapi.servicos.ConsumoApi
+import java.time.LocalDate
 
 fun main(){
 
@@ -18,6 +20,8 @@ fun main(){
     println(gamerCaroline)
     println(jogoResidentVillage)
 
-    val aluguel = gamerCaroline.alugaJogo(jogoResidentVillage)
+    val periodo = Periodo(LocalDate.now(), LocalDate.now().plusDays(7))
+
+    val aluguel = gamerCaroline.alugaJogo(jogoResidentVillage, periodo)
     println(aluguel)
 }
