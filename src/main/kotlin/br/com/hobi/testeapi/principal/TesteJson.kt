@@ -3,6 +3,7 @@ package br.com.hobi.testeapi.principal
 import br.com.hobi.testeapi.modelo.Periodo
 import br.com.hobi.testeapi.modelo.PlanoAssinatura
 import br.com.hobi.testeapi.servicos.ConsumoApi
+import com.google.gson.GsonBuilder
 import java.time.LocalDate
 
 fun main(){
@@ -50,4 +51,37 @@ fun main(){
 
     gamerCamila.alugaJogo(jogoResidentVillage, periodo1)
     println(gamerCamila.jogosAlugados)
+
+
+    gamerCamila.recomendarJogo(jogoResidentVillage, 7)
+    gamerCamila.recomendarJogo(jogoTheLastOfUs, 10)
+
+    gamerCamila.recomendarJogo(jogoResidentVillage, 7)
+    gamerCamila.recomendarJogo(jogoTheLastOfUs, 10)
+    gamerCaroline.recomendarJogo(jogoResidentVillage, 8)
+    gamerCaroline.recomendarJogo(jogoTheLastOfUs, 9)
+
+    println(gamerCamila.jogosRecomendados)
+    println(gamerCaroline.jogosRecomendados)
+
+//    val gamerCaroline = listaGamers.get(3)
+//    val jogoResidentVillage = listaJogoJson.get(10)
+//    val jogoSpider = listaJogoJson.get(13)
+//    val jogoTheLastOfUs = listaJogoJson.get(2)
+//    val jogoDandara = listaJogoJson.get(5)
+//    val jogoAssassins = listaJogoJson.get(4)
+//    val jogoCyber = listaJogoJson.get(6)
+//    val jogoGod = listaJogoJson.get(7)
+//    val jogoSkyrim = listaJogoJson.get(18)
+//
+//    gamerCamila.recomendarJogo(jogoResidentVillage, 7)
+//    gamerCamila.recomendarJogo(jogoTheLastOfUs, 10)
+//    gamerCamila.recomendarJogo(jogoAssassins, 8)
+//    gamerCamila.recomendarJogo(jogoCyber, 7)
+//    gamerCamila.recomendarJogo(jogoGod, 10)
+//    gamerCamila.recomendarJogo(jogoDandara, 8)
+//    gamerCamila.recomendarJogo(jogoSkyrim, 8)
+//    gamerCamila.recomendarJogo(jogoSpider, 6)
+
+    //val gson = GsonBuilder().excludeFieldsWithoutExposeAnnotation().create()
 }
