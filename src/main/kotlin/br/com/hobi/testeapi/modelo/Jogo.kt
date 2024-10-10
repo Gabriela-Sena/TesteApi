@@ -17,6 +17,7 @@ data class Jogo (@Expose val titulo:String,
         this.descricao = descricao
     }
 
+
     override fun recomendar(nota: Int) {
         listaNotas.add(nota)
     }
