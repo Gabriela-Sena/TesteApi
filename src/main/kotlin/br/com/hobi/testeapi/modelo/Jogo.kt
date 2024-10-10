@@ -4,8 +4,6 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import javax.persistence.*
 
-
-
 data class Jogo(@Expose val titulo:String,
                 @Expose val capa:String): Recomendavel {
     var descricao: String? = null
@@ -34,11 +32,12 @@ data class Jogo(@Expose val titulo:String,
     }
 
     override fun toString(): String {
-        return "Meu Jogo: \n" +
+        return "\n\nMeu Jogo: \n" +
                 "Título: $titulo \n" +
                 "Capa: $capa \n" +
-                "Descricao: $descricao" +
-                "Preço: $preco"
+                "Descricao: $descricao\n" +
+                "Preço: $preco\n" +
+                "Id: $id"
     }
 
 }
