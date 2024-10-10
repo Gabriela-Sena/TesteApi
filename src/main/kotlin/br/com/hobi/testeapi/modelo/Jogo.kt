@@ -2,12 +2,15 @@ package br.com.hobi.testeapi.modelo
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import javax.persistence.*
 
-data class Jogo (@Expose val titulo:String,
-            val capa:String): Recomendavel{
 
+
+data class Jogo(@Expose val titulo:String,
+                @Expose val capa:String): Recomendavel {
     var descricao: String? = null
     var preco = 0.0
+    var id = 0
     private val listaNotas = mutableListOf<Int>()
     override val media: Double
         get() = listaNotas.average()
@@ -29,8 +32,5 @@ data class Jogo (@Expose val titulo:String,
                 "Descricao: $descricao" +
                 "Preço: $preco"
     }
-
-
-
 
 }
