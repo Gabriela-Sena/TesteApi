@@ -13,24 +13,23 @@ data class Jogo(@Expose val titulo:String,
     var id = 0
     private val listaNotas = mutableListOf<Int>()
     override val media: Double
-        get() = if (listaNotas.isNotEmpty()) listaNotas.average() else 0.0
-    constructor(titulo: String, capa: String, preco: Double, descricao: String?):
-            this(titulo, capa) {
-        this.preco = preco
-        this.descricao = descricao
-    }
+        get() = listaNotas.average()
 
-    constructor(titulo: String, capa: String, preco: Double, descricao: String?, id: Int) : this(titulo, capa){
-        this.preco = preco
-        this.descricao = descricao
-
-    }
-
-    //constructor(titulo: String, capa: String, preco: Double, descricao: String?, id: Int) : this(titulo, capa)
-
+//    constructor(titulo: String, capa: String, preco: Double, descricao: String?):
+//            this(titulo, capa) {
+//        this.preco = preco
+//        this.descricao = descricao
+//    }
 
     override fun recomendar(nota: Int) {
         listaNotas.add(nota)
+    }
+
+    constructor(titulo: String, capa: String, preco: Double, descricao: String?, id: Int=0)
+            : this(titulo, capa){
+        this.preco = preco
+        this.descricao = descricao
+        this.id = id
     }
 
     override fun toString(): String {
@@ -41,5 +40,4 @@ data class Jogo(@Expose val titulo:String,
                 "Preço: $preco\n" +
                 "Id: $id"
     }
-
 }

@@ -5,7 +5,6 @@ import javax.persistence.EntityManager
 abstract class DAO<TModel, TEntity>(protected val manager: EntityManager, protected val entityType: Class<TEntity>){
 
     abstract fun toEntity(objeto: TModel) : TEntity
-
     abstract fun toModel(entity: TEntity) : TModel
 
     open fun getLista(): List<TModel> {
