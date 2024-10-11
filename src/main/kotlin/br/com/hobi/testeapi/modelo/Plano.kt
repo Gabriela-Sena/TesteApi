@@ -1,10 +1,10 @@
 package br.com.hobi.testeapi.modelo
 
-sealed class Plano (val tipo: String){
+import br.com.hobi.testeapi.modelo.Aluguel
 
-    open fun obterValor(aluguel: Aluguel): Double{
+sealed class Plano(val tipo: String, var id:Int = 0) {
+
+    open fun obterValor(aluguel: Aluguel): Double {
         return aluguel.jogo.preco * aluguel.periodo.emDias
     }
-
-
 }

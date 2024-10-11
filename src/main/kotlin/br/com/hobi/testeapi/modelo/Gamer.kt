@@ -1,20 +1,18 @@
 package br.com.hobi.testeapi.modelo
-import java.lang.IllegalArgumentException
-import java.time.LocalDate
-import java.util.*
-import kotlin.random.Random.Default.nextInt
-import kotlin.text.*
 
-data class Gamer(var nome:String, var email:String): Recomendavel{
+import java.util.Scanner
+import kotlin.random.Random
+
+data class Gamer(var nome:String, var email:String): Recomendavel {
     var dataNascimento:String? = null
     var usuario:String? = null
-        set(value) { //deixar privado para que somente a classe Gamer possa alterar o valor de usuario
+        set(value) {
             field = value
-            if(idInterno.isNullOrBlank()){
+            if(idInterno.isNullOrBlank()) {
                 criarIdInterno()
             }
         }
-
+    var id = 0
     var idInterno:String? = null
         private set
     var plano: Plano = PlanoAvulso("BRONZE")
@@ -26,59 +24,60 @@ data class Gamer(var nome:String, var email:String): Recomendavel{
     override val media: Double
         get() = listaNotas.average()
 
-    override fun recomendar(nota: Int){
-        if (nota < 1 || nota > 10) {
-            println("Nota inválida. Insira uma nota entre 1 e 10")
-        } else {
-            listaNotas.add(nota)
-        }
+    override fun recomendar(nota: Int) {
+        listaNotas.add(nota)
     }
-    fun recomendarJogo(jogo: Jogo, nota: Int){
+
+    fun recomendarJogo(jogo: Jogo, nota: Int) {
         jogo.recomendar(nota)
         jogosRecomendados.add(jogo)
     }
-    constructor(nome: String, email: String, dataNascimento: String, usuario: String):this(nome, email){
+
+    constructor(nome: String, email: String, dataNascimento:String?, usuario:String?, id: Int = 0):
+            this(nome, email) {
         this.dataNascimento = dataNascimento
         this.usuario = usuario
+        this.id = id
         criarIdInterno()
     }
 
     init {
-        if(nome.isNullOrBlank()){
-            throw IllegalArgumentException("O nome está em branco")
+        if (nome.isNullOrBlank()) {
+            throw IllegalArgumentException("Nome está em branco")
         }
         this.email = validarEmail()
     }
 
     override fun toString(): String {
         return "Gamer:\n" +
-                "Nome=$nome\n" +
-                "Email=$email\n" +
-                "DataNascimento=$dataNascimento\n" +
-                "Usuario=$usuario\n" +
-                "idInterno=$idInterno\n" +
-                "Reputação=$media"
+                "Nome: $nome\n" +
+                "Email: $email\n" +
+                "Data Nascimento: $dataNascimento\n" +
+                "Usuario: $usuario\n" +
+                "IdInterno: $idInterno\n" +
+                "Reputação: $media\n" +
+                "Id: $id\n" +
+                "Plano: ${plano.tipo}"
     }
 
-    fun criarIdInterno(){
-        val numero = nextInt(10000) //gera numeros para o id interno
-        val tag = String.format("%04d", numero) //limitar a 4 numeros
+    fun criarIdInterno() {
+        val numero = Random.nextInt(10000)
+        val tag = String.format("%04d", numero)
 
-        idInterno = "$usuario#$tag" //concatena na tag usuario + numero aleatorio
+        idInterno = "$usuario#$tag"
     }
-
 
     fun validarEmail(): String {
         val regex = Regex("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$")
-        if(regex.matches(email)){
+        if (regex.matches(email)) {
             return email
-        }else{
-            throw IllegalArgumentException("Email Inválido")
+        } else {
+            throw IllegalArgumentException("Email inválido")
         }
     }
 
-    fun alugaJogo(jogo: Jogo, periodo: Periodo): Aluguel{
-        val aluguel = Aluguel(this, jogo, periodo )
+    fun alugaJogo(jogo: Jogo, periodo: Periodo): Aluguel {
+        val aluguel = Aluguel(this, jogo, periodo)
         jogosAlugados.add(aluguel)
 
         return aluguel
@@ -91,7 +90,7 @@ data class Gamer(var nome:String, var email:String): Recomendavel{
     }
 
     companion object {
-        fun criarGamer(leitura: Scanner): Gamer{
+        fun criarGamer(leitura: Scanner): Gamer {
             println("Boas vindas ao AluGames! Vamos fazer seu cadastro. Digite seu nome:")
             val nome = leitura.nextLine()
             println("Digite seu e-mail:")
@@ -107,8 +106,10 @@ data class Gamer(var nome:String, var email:String): Recomendavel{
 
                 return Gamer(nome, email, nascimento, usuario)
             } else {
-            return Gamer (nome, email)
+                return Gamer (nome, email)
             }
+
         }
     }
+
 }

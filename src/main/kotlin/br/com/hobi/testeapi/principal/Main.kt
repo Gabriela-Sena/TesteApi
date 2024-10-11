@@ -1,20 +1,26 @@
+package br.com.hobi.testeapi.principal
+
 import br.com.hobi.testeapi.modelo.Gamer
 import br.com.hobi.testeapi.modelo.Jogo
 import br.com.hobi.testeapi.servicos.ConsumoApi
-import java.util.*
+import java.util.Scanner
+
+
 
 fun main() {
-    val leitura = Scanner(System.`in`) //cria o scanner
+    val leitura = Scanner(System.`in`)
     val gamer = Gamer.criarGamer(leitura)
+    println("Cadastro concluído com sucesso. Dados do gamer:")
     println(gamer)
-    println("Idade do gamer " + gamer.dataNascimento?.TransformarEmIdade())
+    println("Idade do gamer: " + gamer.dataNascimento)
 
     do {
-        println("Digite um codigo de jogo para buscar:")
+        println("Digite um código de jogo para buscar:")
         val busca = leitura.nextLine()
 
-        val buscaApi = ConsumoApi() //variavel para inicializar a classe consumoApi
+        val buscaApi = ConsumoApi()
         val informacaoJogo = buscaApi.buscaJogo(busca)
+
 
         var meuJogo: Jogo? = null
 
@@ -26,61 +32,59 @@ fun main() {
         }
 
         resultado.onFailure {
-            println("Jogo inexistente. Tente outro código.")
+            println("Jogo inexistente. Tente outro id.")
         }
 
         resultado.onSuccess {
-            println("Deseja inserir uma descrição personalizada? S/N:")
+            println("Deseja inserir uma descrição personalizada? S/N")
             val opcao = leitura.nextLine()
-
             if (opcao.equals("s", true)) {
-                println("Insira a descrição personalizada do jogo:")
+                println("Insira a descrição personalizado para o jogo:")
                 val descricaoPersonalizada = leitura.nextLine()
                 meuJogo?.descricao = descricaoPersonalizada
             } else {
-                meuJogo?.descricao = meuJogo?.titulo.toString()
+                meuJogo?.descricao = meuJogo?.titulo
+
             }
-            //por algum motivo ele nao funciona a exceção caso haja falha
-            //println(meuJogo)
+
             gamer.jogosBuscados.add(meuJogo)
         }
 
         println("Deseja buscar um novo jogo? S/N")
         val resposta = leitura.nextLine()
 
-    }while(resposta.equals("s", true)) //s maiusculo ou minusculo
+    } while (resposta.equals("s", true))
 
     println("Jogos buscados:")
     println(gamer.jogosBuscados)
 
-    println("\nJogos ordenados por titulo: ")
-    gamer.jogosBuscados.sortBy { //filtrar a lista para um filtro especifico
+    println("\n Jogos ordenados por título: ")
+    gamer.jogosBuscados.sortBy {
         it?.titulo
     }
-    gamer.jogosBuscados.forEach{ //exibir só o titulo
-        println("Titulo: " + it?.titulo)
+
+    gamer.jogosBuscados.forEach {
+        println("Título: " + it?.titulo)
     }
 
     val jogosFiltrados = gamer.jogosBuscados.filter {
-        it?.titulo?.contains("batman", true)?:false //caso nao encontre jogos com o parametro passado, retorne false, ou nao retorne nada
+        it?.titulo?.contains("batman", true) ?: false
     }
-    println("\nJogos Filtrados:")
+    println("\n Jogos filtrados: ")
     println(jogosFiltrados)
 
-    println("Deseja excluir algum jogo da lista original? S/N") //exclui uma posicao da lista de jogos buscados
+    println("Deseja excluir algum jogo da lista original? S/N")
     val opcao = leitura.nextLine()
-    if(opcao.equals("s", true)){
+    if (opcao.equals("s", true)) {
         println(gamer.jogosBuscados)
-        println("Informe a posicao do jogo que deseja excluir: ")
-        val posicao = leitura.nextInt()
-        gamer.jogosBuscados.removeAt(posicao) //lista de arrays começa no 0
+        println("\nInforme a posição do jogo que deseja excluir: ")
+        val posicao =leitura.nextInt()
+        gamer.jogosBuscados.removeAt(posicao)
     }
 
-    println("\nLista ataualizada:")
+    println("\n Lista atualizada:")
     println(gamer.jogosBuscados)
 
-    println("\nBusca finalizada com sucesso!")
-
-
+    println("Busca finalizada com sucesso.")
 
 }

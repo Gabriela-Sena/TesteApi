@@ -1,8 +1,12 @@
 package br.com.hobi.testeapi.servicos
 
-import br.com.hobi.testeapi.modelo.*
+import br.com.hobi.testeapi.modelo.Gamer
+import br.com.hobi.testeapi.modelo.InfoGamerJson
+import br.com.hobi.testeapi.modelo.InfoJogo
+import br.com.hobi.testeapi.modelo.InfoJogoJson
+import br.com.hobi.testeapi.modelo.Jogo
+import br.com.hobi.testeapi.utilitario.criaGamer
 import br.com.hobi.testeapi.utilitario.criaJogo
-import br.com.hobi.testeapi.utilitario.criarGamer
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.net.URI
@@ -12,44 +16,37 @@ import java.net.http.HttpResponse
 
 class ConsumoApi {
 
-
-    private fun consomeDados(endereco: String): String { //parte responsavel pelo consumo da api, privado pois só vamos acessar dentro esta mesma classe
-
+    private fun consomeDados(endereco: String): String {
         val client: HttpClient = HttpClient.newHttpClient()
         val request = HttpRequest.newBuilder()
             .uri(URI.create(endereco))
             .build()
         val response = client
-            .send(request, HttpResponse.BodyHandlers.ofString())//cria um cliente HTTP e envia essa requisição para o servidor usando
+            .send(request, HttpResponse.BodyHandlers.ofString())
 
-        val json = response.body()// println(json) //A resposta da API vem como um objeto String contendo o JSON com os dados do jogo
-        return json
+        return response.body()
     }
-    fun buscaJogo(id: String):InfoJogo{
 
-        val endereco = "https://www.cheapshark.com/api/1.0/games?id=$id"//concatenando o ID
-
+    fun buscaJogo(id:String): InfoJogo {
+        val endereco = "https://www.cheapshark.com/api/1.0/games?id=$id"
         val json = consomeDados(endereco)
 
-        val gson = Gson() //variavel para inicializar a biblioteca gson, inserir dependencia e dar um alt+enter
-        //var novoJogo: br.com.hobi.testeapi.modelo.Jogo? = null
-
-        val meuInfoJogo = gson.fromJson(json, InfoJogo::class.java)//O JSON retornado pela API é convertido para um objeto Kotlin usando a biblioteca Gson
-        // a variável `meuInfoJogo` é do tipo `br.com.hobi.testeapi.modelo.InfoJogo`
+        val gson = Gson()
+        val meuInfoJogo = gson.fromJson(json, InfoJogo::class.java)
 
         return meuInfoJogo
+
     }
 
     fun buscaGamers(): List<Gamer> {
         val endereco = "https://raw.githubusercontent.com/jeniblodev/arquivosJson/main/gamers.json"
-
         val json = consomeDados(endereco)
 
         val gson = Gson()
-        val meuGamerTipo = object: TypeToken<List<InfoGamerJson>>() {}.type //transforma o json em um tipo para que a conversao seja feita
-        val listaGamer: List<InfoGamerJson> = gson.fromJson(json, meuGamerTipo)
+        val meuGamerTipo = object : TypeToken<List<InfoGamerJson>>() {}.type
+        val listaGamer:List<InfoGamerJson> = gson.fromJson(json, meuGamerTipo)
 
-        val listaGamerConvertida = listaGamer.map { infoGamerJson -> infoGamerJson.criarGamer() }
+        val listaGamerConvertida = listaGamer.map { infoGamerJson -> infoGamerJson.criaGamer() }
 
         return listaGamerConvertida
     }
@@ -66,4 +63,5 @@ class ConsumoApi {
 
         return listaJogoConvertida
     }
+
 }
